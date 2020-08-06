@@ -1,0 +1,80 @@
+import java.util.*;
+
+public class Solution {
+    
+    public static int findVertex(boolean [] visited, int[] weight){
+        
+        int v=Integer.MAX_VALUE;
+        int j=-1;
+        
+        for(int i=0;i<weight.length;i++)
+        {
+           if(weight[i]<v &&  !visited[i])
+           {
+               v=weight[i];
+               j=i;
+           }
+        }
+        return j;
+        
+        
+    }
+    
+    public static void primsAlgorithm(int [][] arr, boolean [] visited, int[] weight, int[] parent){
+        
+        
+        for(int j=0;j<arr.length;j++)
+        {
+        int v=findVertex(visited, weight);
+        visited[v]=true;
+        
+        for(int i=0;i<arr.length;i++)
+        {
+            if(arr[v][i]>0 && !visited[i])
+            {
+                if(arr[v][i]<weight[i])
+                {
+                    weight[i]=arr[v][i];
+                    parent[i]=v;
+                }
+            }
+        }
+        }
+            
+    }
+
+	public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		int V = s.nextInt();
+		int E = s.nextInt();
+
+		int arr[][]=new int[V][V];
+        for(int i=0;i<E;i++)
+        {
+            int v1=s.nextInt();
+            int v2=s.nextInt();
+            int weight=s.nextInt();
+            arr[v1][v2]=weight;
+            arr[v2][v1]=weight;
+        }
+        
+        boolean visited[]=new boolean[V];
+        int weight[]=new int[V];
+        int parent[]=new int[V];
+        weight[0]=0;
+        for(int i=1;i<V;i++)
+        {
+            weight[i]=Integer.MAX_VALUE;
+        }
+        
+        primsAlgorithm(arr, visited, weight, parent);
+        
+        for(int i=1;i<V;i++)
+        {
+            if(parent[i] < i)
+                 System.out.println(parent[i]+" "+i+" "+weight[i]);
+            else
+                System.out.println(i+" "+parent[i]+" "+weight[i]);
+        }
+	}
+}
