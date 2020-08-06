@@ -1,0 +1,75 @@
+import java.util.*;
+
+public class Solution {
+    
+    public static int findVertex(boolean [] visited, int[] distance){
+        
+        int v=Integer.MAX_VALUE;
+        int j=-1;
+        
+        for(int i=0;i<distance.length;i++)
+        {
+           if(distance[i]<v &&  !visited[i])
+           {
+               v=distance[i];
+               j=i;
+           }
+        }
+        return j;
+        
+        
+    }
+    
+    public static void dijkstrasAlgorithm(int [][] arr, boolean [] visited, int[] distance){
+        
+        
+        for(int j=0;j<arr.length;j++)
+        {
+        int v=findVertex(visited, distance);
+        visited[v]=true;
+        
+        for(int i=0;i<arr.length;i++)
+        {
+            if(arr[v][i] != 0 && !visited[i])
+            {
+                if(arr[v][i]+distance[v]<distance[i])
+                {
+                    distance[i]=arr[v][i]+distance[v];
+                }
+            }
+        }
+        }
+            
+    }
+
+	public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		int V = s.nextInt();
+		int E = s.nextInt();
+
+		int arr[][]=new int[V][V];
+        for(int i=0;i<E;i++)
+        {
+            int v1=s.nextInt();
+            int v2=s.nextInt();
+            int weight=s.nextInt();
+            arr[v1][v2]=weight;
+            arr[v2][v1]=weight;
+        }
+        int distance[]=new int[V];
+        distance[0]=0;
+        for(int i=1;i<V;i++)
+        {
+            distance[i]=Integer.MAX_VALUE;
+        }
+        
+        boolean visited[]=new boolean[V];
+        
+        dijkstrasAlgorithm(arr, visited, distance);
+        
+        for(int i=0;i<V;i++)
+        {
+            System.out.println(i+" "+distance[i]);
+        }
+	}
+}
